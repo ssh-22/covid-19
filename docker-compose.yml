@@ -45,10 +45,10 @@ services:
     ports:
       - "3000:3000"
     command: >
-      sh -c "cd hacker/ && yarn start"
+      sh -c "cd covid-19/ && yarn start"
     volumes:
       - ./frontend:/frontend
-      - ./frontend/hacker/node_modules:/frontend/hacker/node_modules
+      - ./frontend/covid-19/node_modules:/frontend/covid-19/node_modules
     depends_on:
       - app
     tty: true

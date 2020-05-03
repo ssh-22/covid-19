@@ -1,4 +1,4 @@
-Hacker
+covid-19
 ====
 
 ## Description
@@ -15,7 +15,7 @@ Hacker
 ## Install
 
 ```zsh
-git clone https://github.com/ssh-22/hacker.git
+git clone https://github.com/ssh-22/covid-19.git
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ docker-compose up --force-recreate
 
 ## Licence
 
-[MIT](https://github.com/ssh-22/hacker/blob/master/LICENSE)
+[MIT](https://github.com/ssh-22/covid-19/blob/master/LICENSE)
 
 ## Author
 

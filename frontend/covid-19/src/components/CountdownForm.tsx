@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import DatePicker from "./DatePicker";
 import TextField from "@material-ui/core/TextField";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const CountdownForm = () => {
+interface CountdownForm {
+  addCountdown: CallableFunction;
+}
+
+const CountdownForm = ({ addCountdown }: CountdownForm) => {
+  const [value, setValue] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!value) return;
+    addCountdown(value);
+    setValue("");
+  };
+
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       button: {
@@ -15,10 +28,6 @@ const CountdownForm = () => {
   );
 
   const classes = useStyles();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
 
   return (
     <div>

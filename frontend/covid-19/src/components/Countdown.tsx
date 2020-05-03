@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
-type CountdownProps = {
+interface Counter {
+  days: Number;
+  hours: Number;
+  minutes: Number;
+  seconds: Number;
+}
+
+interface Countdown {
   target: string;
   targetDate: string;
-};
+}
 
-const Countdown = (props: CountdownProps) => {
-  const [counter, setCounter] = useState({
+const Countdown = ({ target, targetDate }: Countdown) => {
+  const [counter, setCounter] = useState<Counter>({
     days: 0,
     hours: 0,
     minutes: 0,
@@ -16,7 +23,7 @@ const Countdown = (props: CountdownProps) => {
 
   useEffect(() => {
     setInterval(() => {
-      const diff = moment(props.targetDate).diff(moment());
+      const diff = moment(targetDate).diff(moment());
       const duration = moment.duration(diff);
       const days = Math.floor(duration.asDays());
       const hours = duration.hours();
@@ -29,11 +36,11 @@ const Countdown = (props: CountdownProps) => {
         seconds,
       });
     }, 1000);
-  }, [props.targetDate]);
+  }, [targetDate]);
 
   return (
     <div className="countdown">
-      <span className="target">{props.target}</span>
+      <span className="target">{target}</span>
       <span> まで あと </span>
       <span className="count">
         <span className="count days">{counter.days}日</span>

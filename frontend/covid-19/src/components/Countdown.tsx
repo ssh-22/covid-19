@@ -10,7 +10,7 @@ interface Counter {
 
 interface Countdown {
   target: string;
-  targetDate: string;
+  targetDate: Date;
 }
 
 const Countdown = ({ target, targetDate }: Countdown) => {

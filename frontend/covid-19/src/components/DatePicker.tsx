@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -7,10 +7,20 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-const DatePicker: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+type targetDateProps = {
+  handleTargetDate: CallableFunction;
+};
+
+const DatePicker: React.FC<targetDateProps> = ({
+  handleTargetDate,
+}: targetDateProps) => {
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+    new Date("2020-05-31T00:00:00")
+  );
+
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
+    handleTargetDate(date);
   };
 
   return (

@@ -2,7 +2,20 @@ import React, { useState } from "react";
 import Countdown from "./Countdown";
 import CountdownForm from "./CountdownForm";
 
+import { Grid, IconButton } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 const CountdownList: React.FC = () => {
+  const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      button: {
+        margin: theme.spacing(1),
+      },
+    })
+  );
+
+  const classes = useStyles();
+
   const [countdowns, setCountdowns] = useState([
     {
       target: "新型コロナ治療薬承認",
@@ -24,24 +37,42 @@ const CountdownList: React.FC = () => {
     setCountdowns(newCountdowns);
   };
 
+  const deleteCountdown = (countdownIndex: number) => {
+    countdowns.splice(countdownIndex, 1);
+    const newCountdowns = [...countdowns];
+    setCountdowns(newCountdowns);
+  };
+
   return (
-    <div>
-      <div className="countdown-list">
-        {countdowns.map((countdown, index) => (
-          <div key={index}>
-            <Countdown
-              key={index}
-              target={countdown.target}
-              targetDate={countdown.targetDate}
-            />
-            <br />
-          </div>
-        ))}
-      </div>
-      <br />
-      <br />
+    <Grid
+      container
+      direction="column"
+      justify="space-between"
+      alignItems="center"
+    >
       <CountdownForm addCountdown={addCountdown} />
-    </div>
+      <br />
+      <br />
+      <Grid item className="countdown-list">
+        {countdowns
+          .map((countdown, index) => (
+            <div key={index}>
+              <Countdown
+                key={index}
+                target={countdown.target}
+                targetDate={countdown.targetDate}
+              />
+              <IconButton
+                color="secondary"
+                className={classes.button}
+                children={<DeleteIcon />}
+                onClick={() => deleteCountdown(index)}
+              ></IconButton>
+            </div>
+          ))
+          .reverse()}
+      </Grid>
+    </Grid>
   );
 };
 

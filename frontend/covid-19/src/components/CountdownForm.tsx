@@ -5,6 +5,8 @@ import TextField from "@material-ui/core/TextField";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import { Grid } from "@material-ui/core";
+import SendIcon from "@material-ui/icons/Send";
 
 interface CountdownForm {
   addCountdown: CallableFunction;
@@ -37,7 +39,7 @@ const CountdownForm = ({ addCountdown }: CountdownForm) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <Grid item>
       <form className="countdown form" onSubmit={handleSubmit}>
         <TextField
           label="何を"
@@ -52,12 +54,13 @@ const CountdownForm = ({ addCountdown }: CountdownForm) => {
           variant="contained"
           color="primary"
           className={classes.button}
+          endIcon={<SendIcon />}
           onClick={handleSubmit}
         >
           送信
         </Button>
       </form>
-    </div>
+    </Grid>
   );
 };
 

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Countdown from "./Countdown";
 import CountdownForm from "./CountdownForm";
+import CountdownEditForm from "./CountdownEditForm";
 
 import { Grid, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
 const CountdownList: React.FC = () => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,9 +41,27 @@ const CountdownList: React.FC = () => {
   };
 
   const deleteCountdown = (countdownIndex: number) => {
-    countdowns.splice(countdownIndex, 1);
     const newCountdowns = [...countdowns];
+    newCountdowns.splice(countdownIndex, 1);
     setCountdowns(newCountdowns);
+  };
+
+  const editCountdown = (countdownIndex: number) => {
+    console.log(countdownIndex);
+    const newCountdowns = [...countdowns];
+    const newCountdown = newCountdowns[countdownIndex];
+    newCountdowns.splice(countdownIndex, 1, newCountdown);
+    setCountdowns(newCountdowns);
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -63,11 +84,25 @@ const CountdownList: React.FC = () => {
                 targetDate={countdown.targetDate}
               />
               <IconButton
+                color="primary"
+                className={classes.button}
+                children={<EditIcon />}
+                onClick={handleClickOpen}
+              />
+              <CountdownEditForm
+                target={countdown.target}
+                targetDate={countdown.targetDate}
+                addCountdown={addCountdown}
+                // editCountdown={() => editCountdown(index)}
+                open={open}
+                handleClose={handleClose}
+              />
+              <IconButton
                 color="secondary"
                 className={classes.button}
                 children={<DeleteIcon />}
                 onClick={() => deleteCountdown(index)}
-              ></IconButton>
+              />
             </div>
           ))
           .reverse()}

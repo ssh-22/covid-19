@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Countdown
 
-# Register your models here.
+
+@admin.register(Countdown)
+class CountdownAdmin(admin.ModelAdmin):
+    pass

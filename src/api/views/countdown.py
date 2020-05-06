@@ -6,6 +6,15 @@ from api.serializers.countdown_seralizers import (
     CountdownSerializer,
     CountdownDeleteSerializer,
 )
+from covid19.models import Countdown
+
+
+class CountdownGetAPI(APIView):
+    def get(self, request):
+        countdowns = Countdown.objects.order_by("target_date").values(
+            "target", "target_date"
+        )
+        return Response(status=HTTP_200_OK, data=countdowns)
 
 
 class CountdownCreateAPI(APIView):

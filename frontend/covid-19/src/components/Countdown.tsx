@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import { CounterType, CountdownType } from "../interfaces";
 
-interface Counter {
-  days: Number;
-  hours: Number;
-  minutes: Number;
-  seconds: Number;
-}
-
-export interface Countdown {
-  target: string;
-  targetDate: Date;
-}
-
-const Countdown = ({ target, targetDate }: Countdown) => {
-  const [counter, setCounter] = useState<Counter>({
+const Countdown = ({ target, targetDate }: CountdownType) => {
+  const [counter, setCounter] = useState<CounterType>({
     days: 0,
     hours: 0,
     minutes: 0,

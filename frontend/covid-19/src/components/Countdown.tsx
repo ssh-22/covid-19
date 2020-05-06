@@ -8,7 +8,7 @@ interface Counter {
   seconds: Number;
 }
 
-interface Countdown {
+export interface Countdown {
   target: string;
   targetDate: Date;
 }
@@ -22,7 +22,7 @@ const Countdown = ({ target, targetDate }: Countdown) => {
   });
 
   useEffect(() => {
-    setInterval(() => {
+    const timerId = setInterval(() => {
       const diff = moment(targetDate).diff(moment());
       const duration = moment.duration(diff);
       const days = Math.floor(duration.asDays());
@@ -36,6 +36,9 @@ const Countdown = ({ target, targetDate }: Countdown) => {
         seconds,
       });
     }, 1000);
+    return () => {
+      clearInterval(timerId);
+    };
   }, [targetDate]);
 
   return (

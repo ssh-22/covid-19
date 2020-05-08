@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Countdown from "./Countdown";
 import CountdownForm from "./CountdownForm";
-import { CountdownType } from "../interfaces";
+import { CountdownInterface } from "../interfaces";
 import {
   CountdownCreateAPI,
   CountdownDeleteAPI,
@@ -25,17 +25,18 @@ const CountdownList: React.FC = () => {
 
   const classes = useStyles();
 
-  const [countdowns, setCountdowns] = useState<CountdownType[]>([]);
+  const [countdowns, setCountdowns] = useState<CountdownInterface[]>([]);
 
-  const addCountdown = (target: string, target_date: Date | string) => {
+  const addCountdown = (countdown: CountdownInterface) => {
+    const target = countdown.target;
+    const target_date = countdown.target_date;
     const newCountdown = { target, target_date };
     axios
       .post(CountdownCreateAPI.develop, newCountdown)
       .then((res) => {
-        console.log(res);
-        const id = Math.max(...countdowns.map((e) => e.id)) + 1;
+        const id: number = res.data.id;
         const newData = { id, ...newCountdown };
-        const newCountdowns = [...countdowns, newData];
+        const newCountdowns = [newData, ...countdowns];
         setCountdowns(newCountdowns);
       })
       .catch((error) => {
@@ -58,7 +59,7 @@ const CountdownList: React.FC = () => {
 
   const fetchData = async () => {
     const res = await axios.get(CountdownGetAPI.develop);
-    const newCountdowns: CountdownType[] = res.data;
+    const newCountdowns: CountdownInterface[] = res.data;
     setCountdowns(newCountdowns);
   };
 

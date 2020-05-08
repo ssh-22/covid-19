@@ -1,16 +1,20 @@
-export interface CounterType {
+export interface CounterInterface {
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
 }
 
-export interface CountdownType {
+export interface CountdownInterface {
   id: number;
   target: string;
   target_date: Date | string;
 }
 
-export interface CountdownFormType {
+export interface CountdownFormInterface {
   addCountdown: CallableFunction;
+}
+
+export interface targetDateProps {
+  handleTargetDate: CallableFunction;
 }

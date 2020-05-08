@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 import DatePicker from "./DatePicker";
 import TextField from "@material-ui/core/TextField";
-import { CountdownFormType } from "../interfaces";
+import { CountdownFormInterface } from "../interfaces";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 
-const CountdownForm = ({ addCountdown }: CountdownFormType) => {
+const CountdownForm = ({ addCountdown }: CountdownFormInterface) => {
   const [target, setTarget] = useState("緊急事態宣言解除");
 
   const [target_date, setTargetDate] = useState(
@@ -19,7 +19,7 @@ const CountdownForm = ({ addCountdown }: CountdownFormType) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!target || !target_date) return;
-    addCountdown(target, target_date);
+    addCountdown({ target, target_date });
     setTarget("");
   };
 

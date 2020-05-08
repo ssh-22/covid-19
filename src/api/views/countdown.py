@@ -24,9 +24,9 @@ class CountdownCreateAPI(APIView):
         if not serializer.is_valid(raise_exception=True):
             return Response(status=HTTP_400_BAD_REQUEST)
 
-        serializer.save()
+        countdown = serializer.save()
 
-        return Response(status=HTTP_200_OK)
+        return Response(status=HTTP_200_OK, data={"id": countdown.id})
 
 
 class CountdownDeleteAPI(APIView):
@@ -36,7 +36,7 @@ class CountdownDeleteAPI(APIView):
         if not serializer.is_valid(raise_exception=True):
             return Response(status=HTTP_400_BAD_REQUEST)
 
-        id = serializer.validated_data['id']
+        id = serializer.validated_data["id"]
         countdown = Countdown.objects.get(id=id)
         countdown.delete()
 

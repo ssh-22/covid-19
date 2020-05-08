@@ -1,6 +1,6 @@
 import React from "react";
 
-import { targetDateProps } from "../types";
+import { targetDateProps } from "../interfaces";
 
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";

@@ -1,15 +1,13 @@
 import React from "react";
 
+import { targetDateProps } from "../types";
+
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
-type targetDateProps = {
-  handleTargetDate: CallableFunction;
-};
 
 const DatePicker: React.FC<targetDateProps> = ({
   handleTargetDate,

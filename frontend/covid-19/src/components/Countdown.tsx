@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { CounterType, CountdownType } from "../interfaces";
 
-const Countdown = ({ target, targetDate }: CountdownType) => {
+const Countdown = ({ target, target_date }: CountdownType) => {
   const [counter, setCounter] = useState<CounterType>({
     days: 0,
     hours: 0,
@@ -12,7 +12,7 @@ const Countdown = ({ target, targetDate }: CountdownType) => {
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      const diff = moment(targetDate).diff(moment());
+      const diff = moment(target_date).diff(moment());
       const duration = moment.duration(diff);
       const days = Math.floor(duration.asDays());
       const hours = duration.hours();
@@ -28,7 +28,7 @@ const Countdown = ({ target, targetDate }: CountdownType) => {
     return () => {
       clearInterval(timerId);
     };
-  }, [targetDate]);
+  }, [target_date]);
 
   return (
     <div className="countdown">

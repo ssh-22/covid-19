@@ -1,13 +1,14 @@
 export interface CounterType {
-  days: Number;
-  hours: Number;
-  minutes: Number;
-  seconds: Number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 
 export interface CountdownType {
+  id: number;
   target: string;
-  targetDate: Date | string;
+  target_date: Date | string;
 }
 
 export interface CountdownFormType {

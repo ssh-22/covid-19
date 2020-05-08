@@ -3,6 +3,11 @@ import React, { useState, useEffect } from "react";
 import Countdown from "./Countdown";
 import CountdownForm from "./CountdownForm";
 import { CountdownType } from "../interfaces";
+import {
+  CountdownCreateAPI,
+  CountdownDeleteAPI,
+  CountdownGetAPI,
+} from "../consts";
 
 import axios from "axios";
 import { Grid, IconButton } from "@material-ui/core";
@@ -20,23 +25,41 @@ const CountdownList: React.FC = () => {
 
   const classes = useStyles();
 
-  // @ts-ignore
-  const [countdowns, setCountdowns] = useState<CountdownType>([]);
+  const [countdowns, setCountdowns] = useState<CountdownType[]>([]);
 
-  const addCountdown = (target: string, targetDate: Date) => {
-    const newCountdowns = [...countdowns, { target, targetDate }];
-    setCountdowns(newCountdowns);
+  const addCountdown = (target: string, target_date: Date | string) => {
+    const newCountdown = { target, target_date };
+    axios
+      .post(CountdownCreateAPI.develop, newCountdown)
+      .then((res) => {
+        console.log(res);
+        const id = Math.max(...countdowns.map((e) => e.id)) + 1;
+        const newData = { id, ...newCountdown };
+        const newCountdowns = [...countdowns, newData];
+        setCountdowns(newCountdowns);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const deleteCountdown = (countdownIndex: number) => {
-    const newCountdowns = [...countdowns];
-    newCountdowns.splice(countdownIndex, 1);
-    setCountdowns(newCountdowns);
+  const deleteCountdown = (id: number) => {
+    axios
+      .post(CountdownDeleteAPI.develop, { id })
+      .then((res) => {
+        console.log(res);
+        const newCountdowns = countdowns.filter((e) => e.id !== id);
+        setCountdowns(newCountdowns);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const fetchData = async () => {
-    const res = await axios.get("http://127.0.0.1:8000/api/countdown/");
-    setCountdowns(res.data);
+    const res = await axios.get(CountdownGetAPI.develop);
+    const newCountdowns: CountdownType[] = res.data;
+    setCountdowns(newCountdowns);
   };
 
   useEffect(() => {
@@ -50,11 +73,10 @@ const CountdownList: React.FC = () => {
       justify="space-between"
       alignItems="center"
     >
-      {/* <CountdownForm addCountdown={addCountdown} /> */}
+      <CountdownForm addCountdown={addCountdown} />
       <br />
       <br />
       <Grid item className="countdown-list">
-        // @ts-ignore
         {countdowns.map((countdown, index) => (
           <div key={index}>
             <Grid
@@ -65,15 +87,16 @@ const CountdownList: React.FC = () => {
             >
               <Countdown
                 key={index}
+                id={countdown.id}
                 target={countdown.target}
-                targetDate={countdown.targetDate}
+                target_date={countdown.target_date}
               />
-              {/* <IconButton
-                  color="secondary"
-                  className={classes.button}
-                  children={<DeleteIcon />}
-                  onClick={() => deleteCountdown(index)}
-                /> */}
+              <IconButton
+                color="secondary"
+                className={classes.button}
+                children={<DeleteIcon />}
+                onClick={() => deleteCountdown(countdown.id)}
+              />
             </Grid>
           </div>
         ))}

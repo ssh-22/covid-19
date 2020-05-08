@@ -12,12 +12,14 @@ import SendIcon from "@material-ui/icons/Send";
 const CountdownForm = ({ addCountdown }: CountdownFormType) => {
   const [target, setTarget] = useState("緊急事態宣言解除");
 
-  const [targetDate, setTargetDate] = useState(new Date("2020-05-31T00:00:00"));
+  const [target_date, setTargetDate] = useState(
+    new Date("2020-05-31T00:00:00")
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!target || !targetDate) return;
-    addCountdown(target, targetDate);
+    if (!target || !target_date) return;
+    addCountdown(target, target_date);
     setTarget("");
   };
 

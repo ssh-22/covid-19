@@ -4,16 +4,15 @@ services:
   web:
     image: nginx:latest
     ports:
-      - "80:8080"
+      - "80:80"
     restart: always
     volumes:
       - ./docker/web/nginx/conf:/etc/nginx/conf.d
       - ./docker/web/nginx/uwsgi_params:/etc/nginx/uwsgi_params
       - ./src/staticfiles:/staticfiles
-      - ./frontend/covid-19/build:/var/www/build
+      - ./frontend/covid-19/build/:/usr/share/nginx/html
     depends_on:
       - app
-      - frontend
     tty: true
     stdin_open: true
 
@@ -54,22 +53,3 @@ services:
       - "5432:5432"
     volumes:
       - "./db:/var/lib/postgresql/data"
-
-  frontend:
-    build:
-      context: .
-      dockerfile: docker/frontend/Dockerfile
-    ports:
-      - "3000:3000"
-    working_dir: /frontend/covid-19
-    command: >
-      sh -c "yarn install &&
-            yarn build"
-    # yarn global add serve &&
-    # serve -s build -l 3000"
-    volumes:
-      - "./frontend:/frontend"
-    depends_on:
-      - app
-    tty: true
-    stdin_open: true

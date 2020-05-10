@@ -1,6 +1,19 @@
 version: "3.7"
 
 services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./docker/web/nginx/conf:/etc/nginx/conf.d
+      - ./docker/web/nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./src/staticfiles:/staticfiles
+    depends_on:
+      - app
+    tty: true
+    stdin_open: true
+
   app:
     build:
       context: .
@@ -9,15 +22,17 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "./:/src"
-    working_dir: /src/src
+      - "./web-logs:/var/log/web-logs"
+      - "./src:/src"
+    working_dir: /src
     command: >
       sh -c "python manage.py migrate &&
-            python manage.py runserver 0.0.0.0:8000"
-    expose:
-      - "8001"
+            python manage.py collectstatic --noinput &&
+            uwsgi --socket :8001 --module config.wsgi"
     env_file:
       - .env
+    expose:
+      - "8001"
     depends_on:
       - db
     tty: true
@@ -44,11 +59,9 @@ services:
       dockerfile: docker/frontend/Dockerfile
     ports:
       - "3000:3000"
+    working_dir: /frontend/covid-19
     command: >
-      sh -c "cd covid-19/ && yarn start"
-    volumes:
-      - ./frontend:/frontend
-      - ./frontend/covid-19/node_modules:/frontend/covid-19/node_modules
+      sh -c "yarn install && yarn start"
     depends_on:
       - app
     tty: true

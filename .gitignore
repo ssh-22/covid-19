@@ -16,3 +16,6 @@ node_modules
 # python
 __pycache__/
 .mypy_cache/
+
+# django
+staticfiles/

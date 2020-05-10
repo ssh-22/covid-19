@@ -4,12 +4,6 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /src
 
-COPY . .
+COPY ./src .
 
-RUN pip install --upgrade pip
-RUN pip install poetry
-
-WORKDIR /src/src
-
-RUN poetry config virtualenvs.create false \
-  && poetry install
+RUN pip install -r requirements.txt

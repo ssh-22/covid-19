@@ -1,11 +1,14 @@
 export const CountdownGetAPI = {
-  develop: "http://127.0.0.1:80/api/countdown/",
+  develop:
+    "http://ec2-52-195-9-160.ap-northeast-1.compute.amazonaws.com:8080/api/countdown/",
 };
 
 export const CountdownCreateAPI = {
-  develop: "http://127.0.0.1:80/api/countdown/create",
+  develop:
+    "http://ec2-52-195-9-160.ap-northeast-1.compute.amazonaws.com:8080/api/countdown/create",
 };
 
 export const CountdownDeleteAPI = {
-  develop: "http://127.0.0.1:80/api/countdown/delete",
+  develop:
+    "http://ec2-52-195-9-160.ap-northeast-1.compute.amazonaws.com:8080/api/countdown/delete",
 };
